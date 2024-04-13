@@ -30,27 +30,27 @@ class MyStack:
         self.head = Queue()
         self.tail = Queue()
     def push(self, x: int) -> None:
-        while self.head.data is not None:
-            popped_head = self.head.pop()
-            self.tail.push(popped_head)
-        self.tail.push(x)
-        while self.tail.data is not None:
-            popped_tail = self.tail.pop()
-            self.head.push(popped_tail)
-
+        self.head.push(x)
     def pop(self) -> int:
-        return self.head.pop()
+        while self.head.next is not None:
+            self.tail.push(self.head.pop())
+        popped = self.head.pop()
+        self.head, self.tail = self.tail, self.head
+        return popped
 
     def top(self) -> int:
-        curr = self.head
-        while curr.next is not None:
-            curr = curr.next
-        return curr.data
+        while self.head.next is not None:
+            self.tail.push(self.head.pop())
+        element = self.head.data
+        self.tail.push(self.head.pop())
+        self.head, self.tail = self.tail, self.head
+        return element
 
     def empty(self) -> bool:
         if self.head.data is None:
             return True
         return False
+ 
  
 
 stack = MyStack()
@@ -59,3 +59,4 @@ stack.push(2)
 print(stack.top())
 print(stack.pop())
 print(stack.empty())
+print(stack.top())
