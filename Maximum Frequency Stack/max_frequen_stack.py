@@ -30,20 +30,22 @@ class CustomDict:
         most_freq_value = None
         curr = curr_stack
         while curr is not None:
-            if self.frequency(curr.data) >= max_freq:
+            curr_freq = self.frequency(curr.data)
+            if curr_freq >= max_freq:
                 if top_len > max_top_len:
                     most_freq_value = curr.data
-                    max_freq = self.frequency(curr.data)
+                    max_freq = curr_freq
                     max_top_len = top_len
             curr = curr.next
             top_len += 1
         return most_freq_value
         
 class FreqStack:
-    dict_freq = CustomDict()
     def __init__(self, data= None):
         self.data = data
         self.next = None 
+        self.dict_freq = CustomDict()
+    
     def push(self, val: int) -> None:
         self.dict_freq.push(val)
         if self.data is None:
@@ -54,6 +56,8 @@ class FreqStack:
                 curr = curr.next
             curr.next = FreqStack(val)
     def pop(self) -> int:
+        if self.data is None:
+            return 0
         if self.next is None:
             popped = FreqStack(self.data)
             self.data = None
@@ -73,16 +77,29 @@ class FreqStack:
                     return most_frequent_val
                 else:
                     encounter += 1
+                    previous = curr
                     curr = curr.next
             else:
                 previous = curr
                 curr = curr.next
-    
+
 freqStack = FreqStack()
 freqStack.push(5)
-freqStack.push(7)
+freqStack.push(1)
+freqStack.push(2)
 freqStack.push(5)
-freqStack.push(7)
-freqStack.push(4)
+freqStack.push(5)
+freqStack.push(5)
+freqStack.push(1)
+freqStack.push(6)
+freqStack.push(1)
+freqStack.push(5)
 print(freqStack.pop())
-print('a')
+print(freqStack.pop())
+print(freqStack.pop())
+print(freqStack.pop())
+print(freqStack.pop())
+print(freqStack.pop())
+print(freqStack.pop())
+new_stack = FreqStack()
+print(1)
